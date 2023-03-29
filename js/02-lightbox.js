@@ -1,7 +1,7 @@
 import { galleryItems } from "./gallery-items.js";
 // Change code below this line
 
-const arrElemGallery = [];
+const arrayOfGalleryElements = [];
 for (const picture of galleryItems) {
   const galleryItem = document.createElement("div");
   galleryItem.classList.add("gallery__item");
@@ -14,15 +14,13 @@ for (const picture of galleryItems) {
   galleryImg.classList.add("gallery__image");
   galleryImg.src = picture.preview;
   galleryImg.alt = picture.description;
-  galleryImg.dataset.source = picture.original;
-  galleryImg.dataset.type = "image";
-  galleryItem.appendChild(galleryLink);
   galleryLink.appendChild(galleryImg);
-  arrElemGallery.push(galleryLink);
+  galleryItem.appendChild(galleryLink);
+  arrayOfGalleryElements.push(galleryItem);
 }
 
 const gallery = document.querySelector(".gallery");
-gallery.append(...arrElemGallery);
+gallery.append(...arrayOfGalleryElements);
 
 new SimpleLightbox(".gallery a", {
   captions: true,
