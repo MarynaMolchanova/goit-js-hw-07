@@ -7,6 +7,7 @@ for (const picture of galleryItems) {
   galleryItem.classList.add("gallery__item");
   const galleryLink = document.createElement("a");
   galleryLink.classList.add("gallery__link");
+
   basicLightbox.create(galleryLink);
 
   const galleryImg = document.createElement("img");
@@ -14,6 +15,7 @@ for (const picture of galleryItems) {
   galleryImg.src = picture.preview;
   galleryImg.alt = picture.description;
   galleryImg.dataset.source = picture.original;
+
   galleryLink.appendChild(galleryImg);
   galleryItem.appendChild(galleryLink);
   arrayOfGalleryElements.push(galleryItem);
@@ -25,17 +27,19 @@ gallery.append(...arrayOfGalleryElements);
 let instance = {};
 
 gallery.onclick = (event) => {
+  event.preventDefault();
+
   if (event.target.nodeName !== "IMG") {
     return;
   }
   instance = basicLightbox.create(`<img src="${event.target.dataset.source}">`);
   instance.show();
-
-  event.preventDefault();
+  document.addEventListener("keydown", onCloseModal);
 };
 
-document.addEventListener("keydown", (event) => {
-  if (instance.visible() && event.code === "Escape") {
+function onCloseModal(event) {
+  if (event.code === "Escape") {
     instance.close();
+    document.removeEventListener("keydown", onCloseModal);
   }
-});
+}
